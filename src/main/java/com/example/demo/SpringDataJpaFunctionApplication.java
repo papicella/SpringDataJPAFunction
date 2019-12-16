@@ -2,7 +2,6 @@ package com.example.demo;
 
 import com.example.demo.entity.Person;
 import com.example.demo.entity.PersonRepository;
-import net.minidev.json.JSONArray;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -34,12 +33,4 @@ public class SpringDataJpaFunctionApplication {
         };
     }
 
-    @Bean
-    public Function<String, String> findPeopleBySurname() {
-        return surname -> {
-            List<Person> personList = personRepository.findByLastName(surname.toLowerCase());
-            String jsonStr = JSONArray.toJSONString(personList);
-            return jsonStr;
-        };
-    }
 }
