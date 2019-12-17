@@ -7,6 +7,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
 
@@ -25,6 +26,15 @@ public class SpringDataJpaFunctionApplication {
             Gson gson = new Gson();
             Optional<Person> person = personRepository.findById(id);
             return gson.toJson(person.orElse(null));
+        };
+    }
+
+    @Bean
+    public Function<String, String> findByLastName() {
+        return surname -> {
+            Gson gson = new Gson();
+            List<Person> personList = personRepository.findByLastName(surname.toLowerCase());
+            return gson.toJson(personList);
         };
     }
 
