@@ -24,7 +24,7 @@ public class SpringDataJpaFunctionApplication {
         return id -> {
             Gson gson = new Gson();
             Optional<Person> person = personRepository.findById(id);
-            return person.isPresent() ? gson.toJson(person.get()) : null;
+            return gson.toJson(person.orElse(null));
         };
     }
 
