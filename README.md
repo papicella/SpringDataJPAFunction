@@ -1,4 +1,4 @@
-# Spring Boot JPA / RIFF Function Demo
+# Spring Data JPA / RIFF Function Demo
 
 This is a basic demo showing how to use a riff function which is a Spring Boot application using 
 Spring Data JPA. In this example we deploy the function to riff 0.5.0. The database used here is an 
