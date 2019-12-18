@@ -10,7 +10,7 @@ embedded H2, but you could easily use an external database if required
 
 https://projectriff.io/docs/v0.5/getting-started
 
-```
+``` bash
 $ riff --version
 riff version 0.5.0-snapshot (668e2c9ee2458f0f7a07761a5690ffac534c3914)
 ```
@@ -22,7 +22,7 @@ https://projectriff.io/docs/v0.5/getting-started/gke
 
 You will be ready once you run this command showing the status of the install
 
-```
+``` bash
 $ riff doctor
 NAMESPACE     STATUS
 default       ok
@@ -50,7 +50,7 @@ as follows
 
 **riff function create person-service --handler findPersonById --git-repo https://github.com/papicella/SpringDataJPAFunction.git --tail**
 
-```
+``` bash
 $ riff function create person-service --handler findPersonById --git-repo https://github.com/papicella/SpringDataJPAFunction.git --tail
 Created function "person-service"
 default/person-service-function-6c5dd-build-1-vd5zs-build-pod[prepare]: prepare:fetch.go:66: Successfully cloned "https://github.com/papicella/SpringDataJPAFunction.git" @ "4769b0d25830a4cb11ec4afa691376bea149839a" in path "/workspace"
@@ -95,7 +95,7 @@ Function "person-service" is ready
 
 **riff knative deployer create knative-person-service --function-ref person-service --ingress-policy External --tail**
 
-```
+``` bash
 $ riff knative deployer create knative-person-service --function-ref person-service --ingress-policy External --tail
 Created deployer "knative-person-service"
 default/knative-person-service-deployer-q5dxh-b8lrl-deployment-54chc9wh[user-container]:
@@ -121,7 +121,7 @@ Deployer "knative-person-service" is ready
 
 5. Let's inspect what functions and deployers we have just created as follows
 
-```
+``` bash
 $ riff functions list
 NAME             LATEST IMAGE                                                                                                 ARTIFACT    HANDLER          INVOKER   STATUS   AGE
 person-service   gcr.io/fe-papicella/person-service@sha256:1958396c267b616c3843ab8235a2078578553d26ba60469065246e7a2c7629b1   <empty>     findPersonById   <empty>   Ready    7m1s
@@ -136,7 +136,7 @@ knative-square           function   square           http://knative-square.defau
 
 6. Create a script to invoke the function service as shown below
 
-```
+``` bash
 export HOST=knative-person-service.default.example.com
 export INGRESS_IP=$(kubectl get svc istio-ingressgateway --namespace istio-system --output 'jsonpath={.status.loadBalancer.ingress[0].ip}')
 
@@ -150,7 +150,7 @@ http POST http://$INGRESS_IP "Content-Type: application/json" "Host: knative-per
 
 7. Invoke the function as follows. I use https://httpie.org (httpie) as it's much easier then curl and it runs on windows, linux, mac
 
-```
+``` http request
 $ ./run-person-service.sh
 Host: knative-person-service.default.example.com
 Function IP Address: 35.244.100.163
