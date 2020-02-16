@@ -137,11 +137,14 @@ knative-square           function   square           http://knative-square.defau
 6. Create a script to invoke the function service as shown below
 
 ``` bash
+export INGRESS_IP=$(kubectl get svc envoy-external --namespace projectcontour --output 'jsonpath={.status.loadBalancer.ingress[0].ip}')
 export HOST=knative-person-service.default.example.com
-export INGRESS_IP=$(kubectl get svc istio-ingressgateway --namespace istio-system --output 'jsonpath={.status.loadBalancer.ingress[0].ip}')
 
 echo "Host: $HOST "
 echo "Function IP Address: $INGRESS_IP "
+
+echo ""
+echo "Invoking person-service now ..."
 echo ""
 
 http POST http://$INGRESS_IP "Content-Type: application/json" "Host: knative-person-service.default.example.com" --json <<< 1
@@ -151,27 +154,40 @@ http POST http://$INGRESS_IP "Content-Type: application/json" "Host: knative-per
 7. Invoke the function as follows. I use https://httpie.org (httpie) as it's much easier then curl and it runs on windows, linux, mac
 
 ``` http request
-$ ./run-person-service.sh
 Host: knative-person-service.default.example.com
-Function IP Address: 35.244.100.163
+Function IP Address: 34.69.25.24
+
+Invoking person-service now ...
 
 HTTP/1.1 200 OK
-content-length: 60
+content-encoding: gzip
 content-type: text/plain; charset=utf-8
-date: Wed, 18 Dec 2019 02:12:19 GMT
-server: istio-envoy
-x-envoy-upstream-service-time: 11506
+date: Sun, 16 Feb 2020 22:44:03 GMT
+server: envoy
+transfer-encoding: chunked
+vary: Accept-Encoding
+x-envoy-upstream-service-time: 17548
 
-"{\"id\":1,\"firstName\":\"pas\",\"lastName\":\"apicella\"}"
+{
+    "firstName": "pas",
+    "id": 1,
+    "lastName": "apicella"
+}
 
 HTTP/1.1 200 OK
-content-length: 62
+content-encoding: gzip
 content-type: text/plain; charset=utf-8
-date: Wed, 18 Dec 2019 02:12:20 GMT
-server: istio-envoy
-x-envoy-upstream-service-time: 12
+date: Sun, 16 Feb 2020 22:44:04 GMT
+server: envoy
+transfer-encoding: chunked
+vary: Accept-Encoding
+x-envoy-upstream-service-time: 15
 
-"{\"id\":2,\"firstName\":\"lucia\",\"lastName\":\"apicella\"}"
+{
+    "firstName": "lucia",
+    "id": 2,
+    "lastName": "apicella"
+}
 ```
 
 <hr />
